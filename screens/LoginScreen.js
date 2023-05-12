@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, Dimensions, Text, Button } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { Video } from "expo-av";
-import { CustomizedButton } from "../components/Button";
 import { Icon } from "react-native-elements";
+import Logo from "../components/Logo";
+import CustomButton from "../components/Button";
 
 const localVideoPath = require("../assets/videos/coverVideo.mp4");
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Video
@@ -27,9 +34,12 @@ const LoginScreen = () => {
           top: 200,
         }}
       >
-        <Text style={{ color: "#fff", fontSize: 54, fontWeight: "bold" }}>
-          EASYTENNIS
-        </Text>
+        <Logo
+          firstColorStyle={{ color: "#fb0" }}
+          secondColorStyle={{
+            color: "#af0",
+          }}
+        />
         <Text
           style={{
             color: "white",
@@ -42,8 +52,27 @@ const LoginScreen = () => {
         >
           #1 TENNIS APP IN SPAIN
         </Text>
-        <CustomizedButton text="register" />
-        <CustomizedButton text="sign in" />
+        <CustomButton
+          onPress={() => navigation.navigate("Registration")}
+          btnCustomStyles={{
+            borderColor: "#fff",
+            borderWidth: 3,
+            backgroundColor: "rgba(0,0,0,0.35)",
+          }}
+          text="register"
+        />
+        <CustomButton
+          onPress={() => navigation.navigate("Login")}
+          btnCustomStyles={{
+            borderColor: "#fff",
+            borderWidth: 3,
+            backgroundColor: "#fff",
+          }}
+          btnTextCustom={{
+            color: "black",
+          }}
+          text="log in"
+        />
         <Text
           style={{
             color: "white",
@@ -120,24 +149,20 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
-  btn: {
-    flex: 1,
-    borderRadius: 30,
-    fontSize: 24,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 8,
-    paddingBottom: 8,
+  btnSecondary: {
+    marginTop: 15,
+    paddingVertical: 8,
+    width: 300,
+    borderRadius: 15,
+    borderWidth: 3,
+    borderColor: "#fff",
     backgroundColor: "#fff",
-    color: "black",
   },
-  secondaryBtn: {
+  btnTextSecodary: {
+    color: "black",
+    fontWeight: "bold",
     fontSize: 24,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 8,
-    paddingBottom: 8,
-    backgroundColor: "black",
+    textAlign: "center",
   },
 });
 
