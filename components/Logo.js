@@ -2,11 +2,11 @@ import React from "react";
 import { Text } from "react-native-elements";
 import { StyleSheet } from "react-native";
 
-function Logo({ firstColorStyle, secondColorStyle }) {
+function Logo({ firstColor, secondColor }) {
   return (
-    <Text style={[styles.text, firstColorStyle]}>
+    <Text style={[styles.text, firstColor]}>
       EASY{""}
-      <Text style={[styles.text, secondColorStyle]}>TENNIS</Text>
+      <Text style={[styles.text, secondColor]}>TENNIS</Text>
     </Text>
   );
 }

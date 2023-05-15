@@ -21,7 +21,7 @@ const LoginForm = ({ navigation }) => {
     <View style={styles.container}>
       <ImageBackground source={localImagePath} style={styles.backgroundImage}>
         <View>
-          <Logo firstColorStyle={{ color: "#fff" }} />
+          <Logo firstColor={{ color: "#fff" }} />
         </View>
         <View>
           <Text style={styles.subTitle}>Email</Text>

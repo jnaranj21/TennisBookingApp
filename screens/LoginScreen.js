@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { View, StyleSheet, Dimensions, Text } from "react-native";
 import { Video } from "expo-av";
-import { Icon } from "react-native-elements";
+import { Icon, Image } from "react-native-elements";
 import Logo from "../components/Logo";
 import CustomButton from "../components/Button";
 
 const localVideoPath = require("../assets/videos/coverVideo.mp4");
+const googleLogoPath = require("../assets/images/google-logo.png");
+const facebookLogoPath = require("../assets/images/facebook-logo.png");
 
 const LoginScreen = ({ navigation }) => {
   return (
@@ -35,8 +31,8 @@ const LoginScreen = ({ navigation }) => {
         }}
       >
         <Logo
-          firstColorStyle={{ color: "#fb0" }}
-          secondColorStyle={{
+          firstColor={{ color: "#fb0" }}
+          secondColor={{
             color: "#af0",
           }}
         />
@@ -84,33 +80,25 @@ const LoginScreen = ({ navigation }) => {
           or continue with:
         </Text>
         <View style={{ flexDirection: "row", marginTop: 30 }}>
-          <Icon
-            name="google"
-            type="font-awesome"
-            color="white"
+          <Image
+            source={googleLogoPath}
             style={{
-              borderColor: "white",
-              borderWidth: 3,
               width: 65,
               height: 65,
+              marginRight: 20,
+              borderColor: "white",
               borderRadius: 5,
-              alignContent: "center",
-              justifyContent: "center",
-              marginRight: 10,
+              borderWidth: 1,
             }}
           />
-          <Icon
-            name="facebook"
-            type="font-awesome"
-            color="white"
+          <Image
+            source={facebookLogoPath}
             style={{
-              borderColor: "white",
-              borderWidth: 3,
               width: 65,
               height: 65,
+              borderColor: "white",
               borderRadius: 5,
-              alignContent: "center",
-              justifyContent: "center",
+              borderWidth: 1,
             }}
           />
         </View>
@@ -132,7 +120,7 @@ const LoginScreen = ({ navigation }) => {
             left: 40,
           }}
         >
-          By registering you agree to the terms of use and {"\n"}privacy policy
+          By registering you agree to the terms of use and{"\n"}privacy policy
           of our app
         </Text>
       </View>

@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 
 const CustomButton = ({ text, onPress, btnCustomStyles, btnTextCustom }) => {

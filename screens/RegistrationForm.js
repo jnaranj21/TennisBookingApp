@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
+import { CheckBox } from "react-native-elements";
 import CustomButton from "../components/Button";
 import Logo from "../components/Logo";
 
@@ -15,6 +16,9 @@ const RegistrationForm = ({ navigation }) => {
   const [telephone, setTelephone] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isSelected, setSelection] = useState(false);
+  const toggleCheck = () => setSelection(!isSelected);
+
   const handleRegistration = () => {};
 
   const localImagePath = require("../assets/images/ModalCover.jpg");
@@ -23,7 +27,7 @@ const RegistrationForm = ({ navigation }) => {
     <View style={styles.container}>
       <ImageBackground source={localImagePath} style={styles.backgroundImage}>
         <View>
-          <Logo firstColorStyle={{ color: "#fb0" }} />
+          <Logo firstColor={{ color: "#fb0" }} />
         </View>
         <View>
           <Text style={[styles.subTitle, styles.marginTop]}>Full name</Text>
@@ -49,10 +53,28 @@ const RegistrationForm = ({ navigation }) => {
           />
           <Text style={styles.subTitle}>Password</Text>
           <TextInput
-            style={[styles.input, styles.marginBottom]}
+            style={styles.input}
             placeholder="Creat your password"
             value={password}
             onChangeText={(text) => setPassword(text)}
+          />
+          <CheckBox
+            title="Agree to our terms?"
+            checked={isSelected}
+            onPress={toggleCheck}
+            containerStyle={{
+              color: "red",
+              width: 350,
+              backgroundColor: "rgba(0,0,0,0.1)",
+              borderWidth: 0,
+              paddingVertical: 0,
+              marginLeft: 0,
+              borderRadius: 10,
+            }}
+            textStyle={{
+              fontSize: 13,
+            }}
+            checkedColor="black"
           />
         </View>
         <View>
@@ -63,8 +85,8 @@ const RegistrationForm = ({ navigation }) => {
               backgroundColor: "rgba(0,0,0,0.35)",
             }}
             text="register"
+            onPress={() => navigation.navigate("Explore")}
           />
-          <View />
         </View>
       </ImageBackground>
     </View>
@@ -101,6 +123,9 @@ const styles = StyleSheet.create({
   },
   marginBottom: {
     marginBottom: 20,
+  },
+  checkBox: {
+    alignSelf: "center",
   },
 });
 
