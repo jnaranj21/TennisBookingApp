@@ -4,9 +4,11 @@ import { View, Text, Keyboard, Dimensions } from "react-native";
 import Input from "../components/Input";
 import CustomButton from "../components/Button";
 
-const LoginScreen = ({ navigation }) => {
+const RegistrationScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({
+    name: "",
     email: "",
+    phone: "",
     password: "",
   });
 
@@ -16,11 +18,19 @@ const LoginScreen = ({ navigation }) => {
   const validate = () => {
     Keyboard.dismiss();
     let isValid = true;
+    if (!inputs.name) {
+      handleError("Please enter your full name", "name");
+      isValid = false;
+    }
     if (!inputs.email) {
       handleError("Please enter your email address", "email");
       isValid = false;
     } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
       handleError("Please enter a valid email", "email");
+      isValid = false;
+    }
+    if (!inputs.phone) {
+      handleError("Please enter your phone number", "phone");
       isValid = false;
     }
     if (!inputs.password) {
@@ -58,8 +68,29 @@ const LoginScreen = ({ navigation }) => {
     >
       <View style={{ marginVertical: 20 }}>
         <Text style={{ fontSize: 18, fontWeight: "bold", margin: 15 }}>
-          Enter your details to log in
+          Enter your details to register
         </Text>
+        <Input
+          placeholder="Enter your full name"
+          label="Full name"
+          iconName="account-outline"
+          error={errors.name}
+          onFocus={() => {
+            handleError(null, "name");
+          }}
+          onChangeText={(text) => handleOnChange(text, "name")}
+        />
+        <Input
+          keyboardType="numeric"
+          placeholder="Enter your phone number"
+          label="Phone number"
+          iconName="phone-outline"
+          error={errors.phone}
+          onFocus={() => {
+            handleError(null, "phone");
+          }}
+          onChangeText={(text) => handleOnChange(text, "phone")}
+        />
         <Input
           placeholder="Enter your email address"
           label="Email"
@@ -92,18 +123,17 @@ const LoginScreen = ({ navigation }) => {
           }}
           btnTextCustom={{ color: "black" }}
           text="log in"
-          onPress={() => {
-            validate();
-          }}
+          onPress={validate}
         />
         <Text
           style={{ alignSelf: "flex-start", marginLeft: 50, marginTop: 10 }}
+          onPress={() => navigation.navigate("Login")}
         >
-          Forgot your passoword? Reset it!
+          Already have an account? Login!
         </Text>
       </View>
     </View>
   );
 };
 
-export default LoginScreen;
+export default RegistrationScreen;

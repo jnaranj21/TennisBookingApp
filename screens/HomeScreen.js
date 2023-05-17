@@ -3,7 +3,6 @@ import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "@rneui/themed";
 import { Card } from "react-native-elements";
-import LinearGradient from "react-native-linear-gradient";
 
 const localCourtImagePath = require("../assets/images/BgImg.jpg");
 const localCoachImagePath = require("../assets/images/CoachChinoRocha.jpg");

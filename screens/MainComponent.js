@@ -1,12 +1,12 @@
 import { Platform, View } from "react-native";
 import Constants from "expo-constants";
-import LoginScreen from "./LoginScreen";
+import LandingScreen from "./LandingScreen";
 import HomeScreen from "./HomeScreen";
 import ProfileScreen from "./ProfileScreen";
 import TournamentsScreen from "./TournamentsScreen";
 import CommunityScreen from "./CommunityScreen";
-import RegistrationForm from "./RegistrationForm";
-import LoginForm from "./LoginForm";
+import RegistrationScreen from "./RegistrationScreen";
+import LoginScreen from "./LoginScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, Text } from "react-native-elements";
@@ -18,12 +18,12 @@ const LoginNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Login Home"
-        component={LoginScreen}
+        name="LandingScreen"
+        component={LandingScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Registration" component={RegistrationForm} />
-      <Stack.Screen name="Login" component={LoginForm} />
+      <Stack.Screen name="Registration" component={RegistrationScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen
         name="Explore"
         component={HomeNavigator}
