@@ -84,6 +84,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 15,
     borderWidth: 0.5,
     alignItems: "center",
+    borderRadius: 10,
   },
 });
 export default Input;
