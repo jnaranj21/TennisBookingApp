@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, Keyboard, Dimensions } from "react-native";
+import { View, Text, Keyboard, Dimensions, Alert } from "react-native";
 import Input from "../components/Input";
 import CustomButton from "../components/Button";
+import Loader from "../components/Loader";
 
 const RegistrationScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({
@@ -47,7 +48,16 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   const register = () => {
-    navigation.navigate("Explore");
+    setLoading(true);
+    setTimeout(() => {
+      try {
+        setLoading(false);
+        AsyncStorage.setItem("userData", JSON.stringify(inputs));
+        navigation.navigate("Login");
+      } catch (error) {
+        Alert.alert("Error", "Something went wrong");
+      }
+    }, 2000);
   };
 
   const handleOnChange = (text, input) => {
@@ -59,78 +69,81 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        width: Dimensions.get("window").width,
-        height: Dimensions.get("window").height,
-        backgroundColor: "#fff",
-      }}
-    >
-      <View style={{ marginVertical: 20 }}>
-        <Text style={{ fontSize: 18, fontWeight: "bold", margin: 15 }}>
-          Enter your details to register
-        </Text>
-        <Input
-          placeholder="Enter your full name"
-          label="Full name"
-          iconName="account-outline"
-          error={errors.name}
-          onFocus={() => {
-            handleError(null, "name");
-          }}
-          onChangeText={(text) => handleOnChange(text, "name")}
-        />
-        <Input
-          keyboardType="numeric"
-          placeholder="Enter your phone number"
-          label="Phone number"
-          iconName="phone-outline"
-          error={errors.phone}
-          onFocus={() => {
-            handleError(null, "phone");
-          }}
-          onChangeText={(text) => handleOnChange(text, "phone")}
-        />
-        <Input
-          placeholder="Enter your email address"
-          label="Email"
-          iconName="email-outline"
-          error={errors.email}
-          onFocus={() => {
-            handleError(null, "email");
-          }}
-          onChangeText={(text) => handleOnChange(text, "email")}
-        />
-        <Input
-          password
-          placeholder="Enter your password"
-          label="Password"
-          iconName="lock-outline"
-          error={errors.password}
-          onFocus={() => {
-            handleError(null, "password");
-          }}
-          onChangeText={(text) => handleOnChange(text, "password")}
-        />
-      </View>
-      <View style={{ alignItems: "center" }}>
-        <CustomButton
-          activeOpacity={0.5}
-          btnCustomStyles={{
-            borderColor: "black",
-            borderWidth: 1,
-            backgroundColor: "#af0",
-          }}
-          btnTextCustom={{ color: "black" }}
-          text="log in"
-          onPress={validate}
-        />
-        <Text
-          style={{ alignSelf: "flex-start", marginLeft: 50, marginTop: 10 }}
-          onPress={() => navigation.navigate("Login")}
-        >
-          Already have an account? Login!
-        </Text>
+    <View>
+      <Loader visible={loading} />
+      <View
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+          backgroundColor: "#fff",
+        }}
+      >
+        <View style={{ marginVertical: 20 }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", margin: 15 }}>
+            Enter your details to register
+          </Text>
+          <Input
+            placeholder="Enter your full name"
+            label="Full name"
+            iconName="account-outline"
+            error={errors.name}
+            onFocus={() => {
+              handleError(null, "name");
+            }}
+            onChangeText={(text) => handleOnChange(text, "name")}
+          />
+          <Input
+            keyboardType="numeric"
+            placeholder="Enter your phone number"
+            label="Phone number"
+            iconName="phone-outline"
+            error={errors.phone}
+            onFocus={() => {
+              handleError(null, "phone");
+            }}
+            onChangeText={(text) => handleOnChange(text, "phone")}
+          />
+          <Input
+            placeholder="Enter your email address"
+            label="Email"
+            iconName="email-outline"
+            error={errors.email}
+            onFocus={() => {
+              handleError(null, "email");
+            }}
+            onChangeText={(text) => handleOnChange(text, "email")}
+          />
+          <Input
+            password
+            placeholder="Enter your password"
+            label="Password"
+            iconName="lock-outline"
+            error={errors.password}
+            onFocus={() => {
+              handleError(null, "password");
+            }}
+            onChangeText={(text) => handleOnChange(text, "password")}
+          />
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <CustomButton
+            activeOpacity={0.5}
+            btnCustomStyles={{
+              borderColor: "black",
+              borderWidth: 1,
+              backgroundColor: "#af0",
+            }}
+            btnTextCustom={{ color: "black" }}
+            text="log in"
+            onPress={validate}
+          />
+          <Text
+            style={{ alignSelf: "flex-start", marginLeft: 50, marginTop: 10 }}
+            onPress={() => navigation.navigate("Login")}
+          >
+            Already have an account? Login!
+          </Text>
+        </View>
       </View>
     </View>
   );

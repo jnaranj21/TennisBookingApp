@@ -5,16 +5,17 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  FlatList,
 } from "react-native";
 import React, { useState } from "react";
 import { COURTS } from "../shared/COURTS";
 import { Card } from "react-native-elements";
 import { Icon } from "react-native-elements";
 
-const CourtsList = () => {
+const CourtsList = ({ courts }) => {
   return (
     <View>
-      {COURTS.map((item, index) => (
+      {courts.map((item, index) => (
         <Card key={index} containerStyle={{ padding: 0, borderRadius: 10 }}>
           <Card.Image source={item.image} style={{ borderRadius: 10 }}>
             <View style={{ justifyContent: "center", flex: 1 }}>
@@ -40,23 +41,22 @@ const CourtsList = () => {
 const BookCourtsScreen = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchCourt, setSearchCourt] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState(COURTS);
 
   const handleSearch = () => {
+    const search = searchCourt.toLowerCase();
+    if (!search.length) {
+      setSearchResult(COURTS);
+    }
     const result = COURTS.filter((court) =>
-      court.title.toLowerCase().includes(searchCourt.toLowerCase())
+      court.name.toLowerCase().includes(search)
     );
     setSearchResult(result);
-    console.log(result);
-    return (
-      <View>
-        <FlatList
-          data={searchResult}
-          keyExtractor={(court, index) => index.toString()}
-          renderItem={({ court }) => <Text>{court.title}</Text>}
-        />
-      </View>
-    );
+  };
+
+  const resetSearch = () => {
+    setSearchCourt("");
+    setSearchResult(COURTS);
   };
 
   return (
@@ -80,16 +80,16 @@ const BookCourtsScreen = () => {
             value={searchCourt}
             onChangeText={(text) => {
               setSearchCourt(text);
+              handleSearch();
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
           />
-          <Icon
-            name="search"
-            type="feather"
-            style={{ fontWeight: 100 }}
-            onPress={handleSearch}
-          />
+          {isFocused ? (
+            <Icon name="x" type="feather" style={{ fontWeight: 100 }} />
+          ) : (
+            <Icon name="search" type="feather" style={{ fontWeight: 100 }} />
+          )}
         </View>
         <View
           style={{
@@ -114,7 +114,7 @@ const BookCourtsScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <CourtsList />
+      <CourtsList courts={searchResult} />
     </ScrollView>
   );
 };

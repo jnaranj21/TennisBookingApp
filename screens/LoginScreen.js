@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, Keyboard, Dimensions } from "react-native";
+import { View, Text, Keyboard, Dimensions, Alert } from "react-native";
 import Input from "../components/Input";
 import CustomButton from "../components/Button";
+import Loader from "../components/Loader";
 
 const LoginScreen = ({ navigation }) => {
   const [inputs, setInputs] = useState({
@@ -32,12 +33,39 @@ const LoginScreen = ({ navigation }) => {
     }
 
     if (isValid) {
-      register();
+      login();
     }
   };
 
-  const register = () => {
-    navigation.navigate("Explore");
+  const login = () => {
+    setLoading(true);
+    setTimeout(async () => {
+      setLoading(false);
+      let userData = await AsyncStorage.getItem("userData");
+      if (userData) {
+        userData = JSON.parse(userData);
+        if (
+          inputs.email == userData.email &&
+          inputs.password == userData.password
+        ) {
+          navigation.navigate("Explore");
+          AsyncStorage.setItem(
+            "userData",
+            JSON.stringify({ ...userData, loggedIn: true })
+          );
+        } else {
+          Alert.alert("Error", "Invalid Details");
+          console.log(
+            inputs.email,
+            inputs.password,
+            userData.email,
+            userData.password
+          );
+        }
+      } else {
+        Alert.alert("Error", "User does not exist");
+      }
+    }, 2000);
   };
 
   const handleOnChange = (text, input) => {
@@ -49,58 +77,61 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        width: Dimensions.get("window").width,
-        height: Dimensions.get("window").height,
-        backgroundColor: "#fff",
-      }}
-    >
-      <View style={{ marginVertical: 20 }}>
-        <Text style={{ fontSize: 18, fontWeight: "bold", margin: 15 }}>
-          Enter your details to log in
-        </Text>
-        <Input
-          placeholder="Enter your email address"
-          label="Email"
-          iconName="email-outline"
-          error={errors.email}
-          onFocus={() => {
-            handleError(null, "email");
-          }}
-          onChangeText={(text) => handleOnChange(text, "email")}
-        />
-        <Input
-          password
-          placeholder="Enter your password"
-          label="Password"
-          iconName="lock-outline"
-          error={errors.password}
-          onFocus={() => {
-            handleError(null, "password");
-          }}
-          onChangeText={(text) => handleOnChange(text, "password")}
-        />
-      </View>
-      <View style={{ alignItems: "center" }}>
-        <CustomButton
-          activeOpacity={0.5}
-          btnCustomStyles={{
-            borderColor: "black",
-            borderWidth: 1,
-            backgroundColor: "#af0",
-          }}
-          btnTextCustom={{ color: "black" }}
-          text="log in"
-          onPress={() => {
-            validate();
-          }}
-        />
-        <Text
-          style={{ alignSelf: "flex-start", marginLeft: 50, marginTop: 10 }}
-        >
-          Forgot your passoword? Reset it!
-        </Text>
+    <View>
+      <Loader visible={loading} />
+      <View
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+          backgroundColor: "#fff",
+        }}
+      >
+        <View style={{ marginVertical: 20 }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", margin: 15 }}>
+            Enter your details to log in
+          </Text>
+          <Input
+            placeholder="Enter your email address"
+            label="Email"
+            iconName="email-outline"
+            error={errors.email}
+            onFocus={() => {
+              handleError(null, "email");
+            }}
+            onChangeText={(text) => handleOnChange(text, "email")}
+          />
+          <Input
+            password
+            placeholder="Enter your password"
+            label="Password"
+            iconName="lock-outline"
+            error={errors.password}
+            onFocus={() => {
+              handleError(null, "password");
+            }}
+            onChangeText={(text) => handleOnChange(text, "password")}
+          />
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <CustomButton
+            activeOpacity={0.5}
+            btnCustomStyles={{
+              borderColor: "black",
+              borderWidth: 1,
+              backgroundColor: "#af0",
+            }}
+            btnTextCustom={{ color: "black" }}
+            text="log in"
+            onPress={() => {
+              validate();
+            }}
+          />
+          <Text
+            style={{ alignSelf: "flex-start", marginLeft: 50, marginTop: 10 }}
+          >
+            Forgot your passoword? Reset it!
+          </Text>
+        </View>
       </View>
     </View>
   );
